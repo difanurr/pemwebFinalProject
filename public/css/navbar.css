@@ -1,0 +1,53 @@
+/* navbar.css */
+
+/* Warna latar belakang navbar */
+.navbar {
+    background-color: #d5dadd;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.navbar-brand {
+    padding-right: 20px;
+    padding-left: 128px;
+    font-weight: bold;
+    font-style: italic;
+    color: #343a40;
+}
+
+/* Warna teks navbar */
+.navbar-nav .nav-link {
+    color: #343a40;
+    width : 160px;
+    text-align: center;
+}
+
+/* Warna teks navbar saat aktif */
+.navbar-nav .nav-link.active {
+    color: #343a40;
+    background-color: #fff;
+    padding-right: 20px;
+    padding-left: 20px;
+    font-weight: bold;
+}
+
+/* Warna latar belakang saat menu dihover */
+.navbar-nav .nav-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Tambahkan garis pembatas antara tombol navbar */
+/* .navbar-nav .nav-link {
+    border-right: 1px solid #343a40;
+    padding-right: 10px;
+    padding-left: 10px;
+} */
+
+/* Agakkan tulisan "Admin Only" ke kanan */
+.navbar-brand {
+    margin-left: auto;
+}
+
+#logoutButton {
+    margin-right: 30px;
+}

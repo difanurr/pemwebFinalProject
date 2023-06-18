@@ -1,0 +1,53 @@
+.container {
+    margin-top: 20px;;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-add {
+    margin-bottom: 10px;
+}
+
+#addForm {
+    margin-bottom: 20px;
+}
+
+.table {
+    width: 100%;
+}
+
+/* .table thead th {
+    background-color: #f8f9fa;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+} */
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.modal-title {
+    margin-bottom: 10px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 20px;
+}
+
+.modal-footer button {
+    margin-right: 10px;
+}
+
+.form-group {
+    margin-bottom: 7px;
+}
