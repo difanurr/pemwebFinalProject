@@ -24,7 +24,7 @@
                             <option value="" disabled selected>Pilih ID Barang</option>
                             @foreach ($barang as $barangItem)
                                 <option value="{{ $barangItem->id_barang }}">{{ $barangItem->id_barang }} -
-                                    {{ $barangItem->nama_barang }} (Rp{{ $barangItem->harga}})</option>
+                                    {{ $barangItem->nama_barang }} (Rp{{ $barangItem->harga }})</option>
                             @endforeach
                         </select>
                     </div>
@@ -132,11 +132,11 @@
                                     class="form-control" value="{{ $item->id_barang }}"> --}}
                                 <select class="form-control" id="id_barang{{ $item->id_detail_transaksi }}"
                                     name="id_barang">
-                                    <option value="{{ $item->id_barang }}" disabled selected>{{ $item->id_barang }}
+                                    <option value="{{ $item->id_barang }}">{{ $item->id_barang }}
                                     </option>
                                     @foreach ($barang as $barangItem)
                                         <option value="{{ $barangItem->id_barang }}">{{ $barangItem->id_barang }} -
-                                            {{ $barangItem->nama_barang }} (Rp{{ $barangItem->harga}})</option>
+                                            {{ $barangItem->nama_barang }} (Rp{{ $barangItem->harga }})</option>
                                     @endforeach
                                 </select>
 
@@ -222,17 +222,40 @@
                 var harga_beli = $("#harga_beli" + id_detail_transaksi).val();
                 var total_beli = $("#total_beli" + id_detail_transaksi).val();
 
-                $.post("/detail/update/" + id_detail_transaksi, {
-                    id_transaksi: id_transaksi,
-                    id_barang: id_barang,
-                    jumlah_beli: jumlah_beli,
-                    harga_beli: harga_beli,
-                    total_beli: total_beli,
-                    _token: $("meta[name='csrf-token']").attr("content")
-                }, function() {
-                    $("#editModal" + id_detail_transaksi).modal("hide");
-                    location.reload();
-                })
+                // $.post("/detail/update/" + id_detail_transaksi, {
+                //     id_transaksi: id_transaksi,
+                //     id_barang: id_barang,
+                //     jumlah_beli: jumlah_beli,
+                //     harga_beli: harga_beli,
+                //     total_beli: total_beli,
+                //     _token: $("meta[name='csrf-token']").attr("content")
+                // }, function() {
+                //     $("#editModal" + id_detail_transaksi).modal("hide");
+                //     location.reload();
+                // }, function(error) {
+                //     console.log(error.response.data);
+                // })
+
+                $.ajax({
+                    url: "/detail/update/" + id_detail_transaksi,
+                    type: "POST",
+                    data: {
+                        id_transaksi: id_transaksi,
+                        id_barang: id_barang,
+                        jumlah_beli: jumlah_beli,
+                        harga_beli: harga_beli,
+                        total_beli: total_beli,
+                        _token: $("meta[name='csrf-token']").attr("content")
+                    },
+                    success: function() {
+                        $("#editModal" + id_detail_transaksi).modal("hide");
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
             });
         });
 
