@@ -95,8 +95,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="id_customer">ID Customer:</label>
-                                <input type="text" id="id_customer{{ $item->id_transaksi }}" name="id_customer"
-                                    class="form-control" value="{{ $item->id_customer }}">
+                                {{-- <input type="text" id="id_customer{{ $item->id_transaksi }}" name="id_customer"
+                                    class="form-control" value="{{ $item->id_customer }}"> --}}
+                                    <select class="form-control" id="id_customer{{ $item->id_transaksi }}" name="id_customer">
+                                        <option value="{{ $item->id_customer }}">{{ $item->id_customer }}</option>
+                                        @foreach ($customer as $customerItem)
+                                            <option value="{{ $customerItem->id_customer }}">{{ $customerItem->id_customer }} -
+                                                {{ $customerItem->nama_customer }}</option>
+                                        @endforeach
+                                    </select>
                             </div>
                         </form>
                     </div>
@@ -155,15 +162,23 @@
                 var tanggal = $("#tanggal" + id_transaksi).val();
                 var id_customer = $("#id_customer" + id_transaksi).val();
 
-                $.post("/transaksi/update/" + id_transaksi, {
-                    id_transaksi: id_transaksi,
-                    tanggal: tanggal,
-                    id_customer: id_customer,
-                    _token: $("meta[name='csrf-token']").attr("content")
-                }, function() {
-                    $("#editModal" + id_transaksi).modal("hide");
-                    location.reload();
-                })
+                $.ajax({
+                    url: "/transaksi/update/" + id_transaksi,
+                    type: "POST",
+                    data: {
+                        id_transaksi: id_transaksi,
+                        tanggal: tanggal,
+                        id_customer: id_customer,
+                        _token: $("meta[name='csrf-token']").attr("content")
+                    },
+                    success: function(data) {
+                        $("#editModal" + id_transaksi).modal("hide");
+                        location.reload();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
             });
         });
     </script>

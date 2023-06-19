@@ -81,7 +81,8 @@
                         <form>
                             <div class="form-group">
                                 <label for="id_barang">ID Barang:</label>
-                                <input type="text" class="form-control" id="id_barang" value="{{ $item->id_barang }}">
+                                <input type="text" class="form-control" id="id_barang" value="{{ $item->id_barang }}" readonly>
+                                <input type="hidden" id="id_barang-hidden" value="{{ $item->id_barang }}">
                             </div>
                             <div class="form-group">
                                 <label for="nama_barang">Nama Barang:</label>
@@ -150,9 +151,10 @@
                 var id_barang = $(this).data("id");
                 var nama_barang = $("#nama_barang" + id_barang).val();
                 var harga = $("#harga" + id_barang).val();
+                var id_barang_hidden = $("#id_barang-hidden").val();
 
                 $.post("barang/update/" + id_barang, {
-                    id_barang: id_barang,
+                    id_barang: id_barang_hidden,
                     nama_barang: nama_barang,
                     harga: harga,
                     _token: $("meta[name='csrf-token']").attr("content")
