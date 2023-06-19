@@ -32,7 +32,6 @@ class BarangController extends Controller
         $barang->save();
 
         return redirect()->back();
-        // return response()->json(['message' => 'Data barang berhasil diperbarui'], 200);
     }
 
     public function delete($id)
@@ -41,6 +40,11 @@ class BarangController extends Controller
 
         if (!$barang) {
             return response()->json(['message' => 'Barang tidak ditemukan'], 404);
+        }
+
+        if ($barang ->isBeingUsed()) {
+            $errorMessage = 'Barang dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Detail Transaksi';
+            return back()->with('error', $errorMessage);
         }
 
         $barang->delete();

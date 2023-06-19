@@ -32,7 +32,6 @@ class CustomerController extends Controller {
         $customer->save();
 
         return redirect()->back();
-        // return response()->json(['message' => 'Data customer berhasil diperbarui'], 200);
     }
 
     public function delete($id)
@@ -43,7 +42,11 @@ class CustomerController extends Controller {
             return response()->json(['message' => 'Customer tidak ditemukan'], 404);
         }
 
-        // Hapus data customer
+        if ($customer->isBeingUsed()) {
+            $errorMessage = 'Customer dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Transaksi';
+            return back()->with('error', $errorMessage);
+        }
+
         $customer->delete();
 
         return redirect()->back();

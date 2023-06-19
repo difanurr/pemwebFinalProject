@@ -44,6 +44,11 @@ class TransaksiController extends Controller
             return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
         }
 
+        if ($transaksi->isBeingUsed()) {
+            $errorMessage = 'Transaksi dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Detail Transaksi';
+            return back()->with('error', $errorMessage);
+        }
+
         $transaksi->delete();
 
         return redirect()->back();

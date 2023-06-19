@@ -14,5 +14,7 @@ class Barang extends Model
     protected $primaryKey = 'id_barang';
     public $incrementing = false;
     protected $keyType = 'string';
-    // public $timestamps = false;
+    public function isBeingUsed() {
+        return Barang::where('id_barang', $this->id_barang)->exists();
+    }
 }

@@ -4,6 +4,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <h2>Data Barang</h2>
         <button type="button" class="btn btn-primary btn-add">+</button>
         <div id="addForm" style="display:none">
@@ -81,7 +87,8 @@
                         <form>
                             <div class="form-group">
                                 <label for="id_barang">ID Barang:</label>
-                                <input type="text" class="form-control" id="id_barang" value="{{ $item->id_barang }}" readonly>
+                                <input type="text" class="form-control" id="id_barang" value="{{ $item->id_barang }}"
+                                    readonly>
                                 <input type="hidden" id="id_barang-hidden" value="{{ $item->id_barang }}">
                             </div>
                             <div class="form-group">
@@ -208,5 +215,5 @@
             $('#deleteModal' + modalId).modal('hide');
         }
     </script>
-    
+
 @endsection

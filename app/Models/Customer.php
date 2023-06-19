@@ -14,4 +14,8 @@ class Customer extends Model
     protected $primaryKey = 'id_customer';
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public function isBeingUsed() {
+        return Customer::where('id_customer', $this->id_customer)->exists();
+    }
 }

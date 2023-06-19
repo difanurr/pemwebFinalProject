@@ -4,6 +4,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        
         <h2>Data Transaksi</h2>
 
         <button type="button" class="btn btn-primary btn-add">+</button>
