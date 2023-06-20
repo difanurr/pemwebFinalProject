@@ -12,7 +12,7 @@
         @endif
         
         <h2>Data Customer</h2>
-        <button type="button" class="btn btn-primary btn-add">+</button>
+        <button type="button" class="btn btn-secondary btn-add">+</button>
         <div id="addForm" style="display:none">
             <form action="{{ route('customer.add') }}" method="POST">
                 @csrf
@@ -218,7 +218,17 @@
     <script>
         $(document).ready(function() {
             $(".btn-add").click(function() {
-                $("#addForm").show();
+                var addForm = $("#addForm");
+
+                if (addForm.is(":visible")) {
+                    addForm.hide();
+                    $(this).text("+");
+                    $(this).removeClass("btn-danger").addClass("btn-secondary");
+                } else {
+                    addForm.show();
+                    $(this).text("X");
+                    $(this).removeClass("btn-secondary").addClass("btn-danger");
+                }
             });
         });
     </script>

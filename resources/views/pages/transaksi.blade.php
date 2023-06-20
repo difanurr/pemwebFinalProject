@@ -9,10 +9,10 @@
                 {{ session('error') }}
             </div>
         @endif
-        
+
         <h2>Data Transaksi</h2>
 
-        <button type="button" class="btn btn-primary btn-add">+</button>
+        <button type="button" class="btn btn-secondary btn-add">+</button>
         <div id="addForm" style="display:none">
             <form action="{{ route('transaksi.add') }}" method="POST">
                 @csrf
@@ -103,13 +103,14 @@
                                 <label for="id_customer">ID Customer:</label>
                                 {{-- <input type="text" id="id_customer{{ $item->id_transaksi }}" name="id_customer"
                                     class="form-control" value="{{ $item->id_customer }}"> --}}
-                                    <select class="form-control" id="id_customer{{ $item->id_transaksi }}" name="id_customer">
-                                        <option value="{{ $item->id_customer }}">{{ $item->id_customer }}</option>
-                                        @foreach ($customer as $customerItem)
-                                            <option value="{{ $customerItem->id_customer }}">{{ $customerItem->id_customer }} -
-                                                {{ $customerItem->nama_customer }}</option>
-                                        @endforeach
-                                    </select>
+                                <select class="form-control" id="id_customer{{ $item->id_transaksi }}" name="id_customer">
+                                    <option value="{{ $item->id_customer }}">{{ $item->id_customer }}</option>
+                                    @foreach ($customer as $customerItem)
+                                        <option value="{{ $customerItem->id_customer }}">{{ $customerItem->id_customer }}
+                                            -
+                                            {{ $customerItem->nama_customer }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </form>
                     </div>
@@ -206,17 +207,24 @@
                     $("#deleteModal" + id_transaksi).modal("hide");
                     location.reload();
                 })
-
             });
-
-
         });
     </script>
 
     <script>
         $(document).ready(function() {
             $(".btn-add").click(function() {
-                $("#addForm").show();
+                var addForm = $("#addForm");
+
+                if (addForm.is(":visible")) {
+                    addForm.hide();
+                    $(this).text("+");
+                    $(this).removeClass("btn-danger").addClass("btn-secondary");
+                } else {
+                    addForm.show();
+                    $(this).text("X");
+                    $(this).removeClass("btn-secondary").addClass("btn-danger");
+                }
             });
         });
     </script>

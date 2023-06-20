@@ -11,7 +11,7 @@
         @endif
 
         <h2>Data Barang</h2>
-        <button type="button" class="btn btn-primary btn-add">+</button>
+        <button type="button" class="btn btn-secondary btn-add">+</button>
         <div id="addForm" style="display:none">
             <form action="{{ route('barang.add') }}" method="POST">
                 @csrf
@@ -40,6 +40,7 @@
                 </div>
             </form>
         </div>
+
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
@@ -202,8 +203,21 @@
     <!-- Add Script -->
     <script>
         $(document).ready(function() {
+            // $(".btn-add").click(function() {
+            //     $("#addForm").show();
+            // });
             $(".btn-add").click(function() {
-                $("#addForm").show();
+                var addForm = $("#addForm");
+
+                if (addForm.is(":visible")) {
+                    addForm.hide();
+                    $(this).text("+");
+                    $(this).removeClass("btn-danger").addClass("btn-secondary");
+                } else {
+                    addForm.show();
+                    $(this).text("X");
+                    $(this).removeClass("btn-secondary").addClass("btn-danger");
+                }
             });
         });
     </script>
