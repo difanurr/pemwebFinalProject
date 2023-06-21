@@ -11,6 +11,11 @@
         @endif
 
         <h2>Data Barang</h2>
+
+        <button id="scrollToTop" class="scroll-button-up">▲</button>
+        <button id="scrollToBottom" class="scroll-button-down">▼</button>
+
+        {{-- Add Form --}}
         <button type="button" class="btn btn-secondary btn-add">+</button>
         <div id="addForm" style="display:none">
             <form action="{{ route('barang.add') }}" method="POST">
@@ -41,33 +46,27 @@
             </form>
         </div>
 
-        <table class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>ID Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Harga</th>
-                    <th colspan="2">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($barang as $item)
-                    <tr>
-                        <td>{{ $item->id_barang }}</td>
-                        <td>{{ $item->nama_barang }}</td>
-                        <td>{{ $item->harga }}</td>
-                        <td>
+        {{-- Card --}}
+        <div class="row" id="card-row">
+            @foreach ($barang as $item)
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>{{ $item->nama_barang }}</strong></h5>
+                            <p class="card-text">ID Barang: {{ $item->id_barang }}</p>
+                            <p class="card-text">Harga: {{ $item->harga }}</p>
+
+                        </div>
+                        <div class="card-footer" id="ft">
                             <button type="button" class="btn btn-primary btn-edit" data-id="{{ $item->id_barang }}"
                                 data-toggle="modal" data-target="#editModal{{ $item->id_barang }}">Edit</button>
-                        </td>
-                        <td>
                             <button type="button" class="btn btn-danger btn-delete" data-id="{{ $item->id_barang }}"
                                 data-toggle="modal" data-target="#deleteModal{{ $item->id_barang }}">Delete</button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection
 
@@ -80,8 +79,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editModalLabel">Edit Data Barang</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" onclick="closeModal('{{ $item->id_barang }}')">&times;</span>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal" aria-label="Close"
+                            onclick="closeModal('{{ $item->id_barang }}')">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -121,8 +121,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="deleteModalLabel">Apa Anda yakin ingin menghapus data ini?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" onclick="closeModal('{{ $item->id_barang }}')">&times;</span>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal"
+                            aria-label="Close" onclick="closeModal('{{ $item->id_barang }}')">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -137,7 +138,7 @@
                             @method('DELETE')
                             <button type="button" class="btn btn-secondary"
                                 onclick="closeModal('{{ $item->id_barang }}')">Tidak</button>
-                            <button type="submit" class="btn btn-primary btn-delete-confirm">Iya</button>
+                            <button type="submit" class="btn btn-primary btn-delete-confirm">Ya</button>
                         </form>
                     </div>
                 </div>
@@ -147,8 +148,8 @@
 @endsection
 
 @section('script')
-    <!-- Edit Script -->
     <script>
+        // Edit Script
         $(document).ready(function() {
             $(".btn-edit").click(function() {
                 var id_barang = $(this).data("id");
@@ -170,13 +171,10 @@
                     $("#editModal" + id_barang).modal("hide");
                     location.reload();
                 });
-
             });
         });
-    </script>
 
-    <!-- Delete Script -->
-    <script>
+        // Delete Script
         $(document).ready(function() {
             $(".btn-delete").click(function() {
                 var id_barang = $(this).data("id");
@@ -198,14 +196,9 @@
                 location.reload();
             });
         });
-    </script>
 
-    <!-- Add Script -->
-    <script>
+        // Add Script 
         $(document).ready(function() {
-            // $(".btn-add").click(function() {
-            //     $("#addForm").show();
-            // });
             $(".btn-add").click(function() {
                 var addForm = $("#addForm");
 
@@ -215,19 +208,108 @@
                     $(this).removeClass("btn-danger").addClass("btn-secondary");
                 } else {
                     addForm.show();
-                    $(this).text("X");
+                    $(this).text("×");
                     $(this).removeClass("btn-secondary").addClass("btn-danger");
+                }
+            });
+        });
+
+        // Close Modal Script 
+        function closeModal(modalId) {
+            $('#editModal' + modalId).modal('hide');
+            $('#deleteModal' + modalId).modal('hide');
+        }
+
+        // Scroll Script
+        $(document).ready(function() {
+            // Tombol Scroll ke Bawah
+            $('#scrollToBottom').click(function() {
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                }, 1);
+            });
+
+            // // Tombol Scroll ke Atas
+            $('#scrollToTop').click(function() {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 1);
+            });
+
+            $('.scroll-button-down').fadeIn();
+
+            // // Tampilkan tombol saat scroll mencapai jarak tertentu
+            $(window).scroll(function() {
+                var scrollPosition = $(this).scrollTop();
+                var documentHeight = $(document).height();
+                var windowHeight = $(this).height();
+                var scrollThreshold = 50; // Toleransi scroll sebelum mencapai paling akhir
+
+                // Tombol Scroll ke Bawah
+                if (scrollPosition + windowHeight >= documentHeight - scrollThreshold) {
+                    $('.scroll-button-down').fadeOut();
+                } else {
+                    $('.scroll-button-down').fadeIn();
+                }
+
+                // Tombol Scroll ke Atas
+                if (scrollPosition > scrollThreshold) {
+                    $('.scroll-button-up').fadeIn();
+                } else {
+                    $('.scroll-button-up').fadeOut();
                 }
             });
         });
     </script>
 
-    <!-- Close Modal Script -->
-    <script>
-        function closeModal(modalId) {
-            $('#editModal' + modalId).modal('hide');
-            $('#deleteModal' + modalId).modal('hide');
+@endsection
+
+@section('css')
+    <!-- CSS Styles -->
+    <style>
+        #card-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
         }
-    </script>
+
+        #ft {
+            padding: 3.5%;
+            text-align: center;
+            height: 58px;
+            margin-top: 3px;
+            margin-bottom: 0px;
+            border-radius: 0px 0px 27px 27px;
+        }
+
+        .card {
+            width: 280px;
+            height: 105%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 30px;
+            background-color: #e5e5e583;
+            box-shadow: 2px 2px 10px #88888867;
+        }
+
+        .card:hover {}
+
+        #scrollToBottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+
+        #scrollToTop {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+    </style>
 
 @endsection

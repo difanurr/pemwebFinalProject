@@ -14,7 +14,7 @@ class Transaksi extends Model
     protected $guarded = ['id_transaksi'];
     protected $primaryKey = 'id_transaksi';
 
-    public function isBeingUsed() {
-        return Transaksi::where('id_transaksi', $this->id_transaksi)->exists();
-    }
+    // public function isBeingUsed() {
+    //     return Transaksi::where('id_transaksi', $this->id_transaksi)->exists();
+    // }
 }

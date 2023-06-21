@@ -12,6 +12,9 @@
 
         <h2>Data Transaksi</h2>
 
+        <button id="scrollToTop" class="scroll-button-up">▲</button>
+        <button id="scrollToBottom" class="scroll-button-down">▼</button>
+
         <button type="button" class="btn btn-secondary btn-add">+</button>
         <div id="addForm" style="display:none">
             <form action="{{ route('transaksi.add') }}" method="POST">
@@ -26,8 +29,14 @@
                     <label for="id_customer" class="col-sm-2 col-form-label">ID Customer</label>
                     <div class="col-sm-5">
                         {{-- <input type="text" class="form-control" name="id_customer"> --}}
-                        <select class="form-control" name="id_customer">
+                        {{-- <input class="form-control" list="list_customer" id="id_customer" name="id_customer" placeholder="Type to search..."> --}}
+                        <select class="form-control" name="id_customer"> --}}
                             <option value="" disabled selected>Pilih ID Customer</option>
+                            {{-- <datalist id="list_customer">
+                                @foreach ($customer as $customerItem)
+                                    <option value="{{ $customerItem->id_customer }}">{{ $customerItem->nama_customer }}</option>
+                                @endforeach
+                            </datalist> --}}
                             @foreach ($customer as $customerItem)
                                 <option value="{{ $customerItem->id_customer }}">{{ $customerItem->id_customer }} -
                                     {{ $customerItem->nama_customer }}</option>
@@ -147,7 +156,7 @@
                             <button type="button" class="btn btn-secondary"
                                 onclick="closeModal('{{ $item->id_transaksi }}')">Tidak</button>
                             <button type="submit" class="btn btn-primary btn-delete-confirm"
-                                data-id="{{ $item->id_transaksi }}">Iya</button>
+                                data-id="{{ $item->id_transaksi }}">Ya</button>
                         </form>
                     </div>
                 </div>
@@ -158,6 +167,7 @@
 
 @section('script')
     <script>
+        // Edit Script
         $(document).ready(function() {
             $(".btn-edit").click(function() {
                 var id_transaksi = $(this).data("id");
@@ -188,9 +198,8 @@
                 });
             });
         });
-    </script>
 
-    <script>
+        // Delete Script
         $(document).ready(function() {
             $(".btn-delete").click(function() {
                 var id_transaksi = $(this).data("id");
@@ -209,9 +218,8 @@
                 })
             });
         });
-    </script>
 
-    <script>
+        // Add Script
         $(document).ready(function() {
             $(".btn-add").click(function() {
                 var addForm = $("#addForm");
@@ -222,17 +230,77 @@
                     $(this).removeClass("btn-danger").addClass("btn-secondary");
                 } else {
                     addForm.show();
-                    $(this).text("X");
+                    $(this).text("×");
                     $(this).removeClass("btn-secondary").addClass("btn-danger");
                 }
             });
         });
-    </script>
 
-    <script>
+        // Close Modal Script
         function closeModal(modalId) {
             $('#editModal' + modalId).modal('hide');
             $('#deleteModal' + modalId).modal('hide');
         }
+
+        // Scroll Script
+        $(document).ready(function() {
+            // Tombol Scroll ke Bawah
+            $('#scrollToBottom').click(function() {
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                }, 1);
+            });
+
+            // // Tombol Scroll ke Atas
+            $('#scrollToTop').click(function() {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 1);
+            });
+
+            $('.scroll-button-down').fadeIn();
+
+            // // Tampilkan tombol saat scroll mencapai jarak tertentu
+            $(window).scroll(function() {
+                var scrollPosition = $(this).scrollTop();
+                var documentHeight = $(document).height();
+                var windowHeight = $(this).height();
+                var scrollThreshold = 50; // Toleransi scroll sebelum mencapai paling akhir
+
+                // Tombol Scroll ke Bawah
+                if (scrollPosition + windowHeight >= documentHeight - scrollThreshold) {
+                    $('.scroll-button-down').fadeOut();
+                } else {
+                    $('.scroll-button-down').fadeIn();
+                }
+
+                // Tombol Scroll ke Atas
+                if (scrollPosition > scrollThreshold) {
+                    $('.scroll-button-up').fadeIn();
+                } else {
+                    $('.scroll-button-up').fadeOut();
+                }
+            });
+        });
     </script>
+@endsection
+
+@section('css')
+    <style>
+        #scrollToBottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+
+        #scrollToTop {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+    </style>
 @endsection

@@ -6,6 +6,9 @@
     <div class="container">
         <h2>Data Detail Transaksi</h2>
 
+        <button id="scrollToTop" class="scroll-button-up">▲</button>
+        <button id="scrollToBottom" class="scroll-button-down">▼</button>
+
         <button type="button" class="btn btn-secondary btn-add">+</button>
         <div id="addForm" style="display:none">
             <form action="{{ route('detail.add') }}" method="POST">
@@ -197,7 +200,7 @@
                             <button type="button" class="btn btn-secondary"
                                 onclick="closeModal('{{ $item->id_detail_transaksi }}')">Tidak</button>
                             <button type="submit" class="btn btn-primary btn-delete-confirm"
-                                data-id="{{ $item->id_detail_transaksi }}">Iya</button>
+                                data-id="{{ $item->id_detail_transaksi }}">Ya</button>
                         </form>
                     </div>
                 </div>
@@ -208,6 +211,7 @@
 
 @section('script')
     <script>
+        // Edit Script
         $(document).ready(function() {
             $(".btn-edit").click(function() {
                 var id_detail_transaksi = $(this).data("id");
@@ -259,6 +263,7 @@
             });
         });
 
+        // Delete Script
         $(document).ready(function() {
             $(".btn-delete").click(function() {
                 var id_detail_transaksi = $(this).data("id");
@@ -278,6 +283,7 @@
             });
         });
 
+        // Add Script
         $(document).ready(function() {
             $(".btn-add").click(function() {
                 var addForm = $("#addForm");
@@ -288,12 +294,13 @@
                     $(this).removeClass("btn-danger").addClass("btn-secondary");
                 } else {
                     addForm.show();
-                    $(this).text("X");
+                    $(this).text("×");
                     $(this).removeClass("btn-secondary").addClass("btn-danger");
                 }
             });
         });
 
+        // Total Beli Script
         function addTotalBeli() {
             var jumlahBeli = parseFloat(document.getElementsByName('jumlah_beli')[0].value);
             var hargaBeli = parseFloat(document.getElementsByName('harga_beli')[0].value);
@@ -301,6 +308,7 @@
             document.getElementById('total_beli').value = totalBeli;
         }
 
+        // Edit Modal Total Beli Script
         function editModalTotalBeli(detailId) {
             var jumlahBeli = parseFloat(document.getElementById('jumlah_beli' + detailId).value);
             var hargaBeli = parseFloat(document.getElementById('harga_beli' + detailId).value);
@@ -308,9 +316,71 @@
             document.getElementById('total_beli' + detailId).value = totalBeli;
         }
 
+        // Close Modal Script
         function closeModal(modalId) {
             $('#editModal' + modalId).modal('hide');
             $('#deleteModal' + modalId).modal('hide');
         }
+
+        // Scroll Script
+        $(document).ready(function() {
+            // Tombol Scroll ke Bawah
+            $('#scrollToBottom').click(function() {
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                }, 1);
+            });
+
+            // // Tombol Scroll ke Atas
+            $('#scrollToTop').click(function() {
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 1);
+            });
+
+            $('.scroll-button-down').fadeIn();
+
+            // // Tampilkan tombol saat scroll mencapai jarak tertentu
+            $(window).scroll(function() {
+                var scrollPosition = $(this).scrollTop();
+                var documentHeight = $(document).height();
+                var windowHeight = $(this).height();
+                var scrollThreshold = 50; // Toleransi scroll sebelum mencapai paling akhir
+
+                // Tombol Scroll ke Bawah
+                if (scrollPosition + windowHeight >= documentHeight - scrollThreshold) {
+                    $('.scroll-button-down').fadeOut();
+                } else {
+                    $('.scroll-button-down').fadeIn();
+                }
+
+                // Tombol Scroll ke Atas
+                if (scrollPosition > scrollThreshold) {
+                    $('.scroll-button-up').fadeIn();
+                } else {
+                    $('.scroll-button-up').fadeOut();
+                }
+            });
+        });
     </script>
+@endsection
+
+@section('css')
+    <style>
+        #scrollToBottom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+
+        #scrollToTop {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            z-index: 999;
+            display: none;
+        }
+    </style>
 @endsection
