@@ -28,7 +28,7 @@
             </ul>
             <ul class="navbar-nav justify-content-end ms-auto">
                 <li class="nav-item">
-                    <button id="logoutButton" class="btn btn-danger btn-sm" type="button">Logout</button>
+                    <button id="logoutButton" class="btn btn-outline-danger btn-sm" type="button">Logout</button>
                 </li>
             </ul>
         </div>
