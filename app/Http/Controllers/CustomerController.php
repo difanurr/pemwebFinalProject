@@ -42,10 +42,10 @@ class CustomerController extends Controller {
             return response()->json(['message' => 'Customer tidak ditemukan'], 404);
         }
 
-        // if ($customer->isBeingUsed()) {
-        //     $errorMessage = 'Customer dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Transaksi';
-        //     return back()->with('error', $errorMessage);
-        // }
+        if ($customer->isBeingUsed()) {
+            $errorMessage = 'Customer dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Transaksi';
+            return back()->with('error', $errorMessage);
+        }
 
         $customer->delete();
 

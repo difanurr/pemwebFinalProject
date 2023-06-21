@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Detail;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
@@ -42,10 +43,10 @@ class BarangController extends Controller
             return response()->json(['message' => 'Barang tidak ditemukan'], 404);
         }
 
-        // if ($barang ->isBeingUsed()) {
-        //     $errorMessage = 'Barang dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Detail Transaksi';
-        //     return back()->with('error', $errorMessage);
-        // }
+        if ($barang ->isBeingUsed()) {
+            $errorMessage = 'Barang dengan ID ' . $id . ' tidak dapat dihapus karena masih digunakan di tabel Detail Transaksi';
+            return back()->with('error', $errorMessage);
+        }
 
         $barang->delete();
 

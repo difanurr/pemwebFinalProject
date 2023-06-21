@@ -15,7 +15,7 @@ class Customer extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    // public function isBeingUsed() {
-    //     return Customer::where('id_customer', $this->id_customer)->exists();
-    // }
+    public function isBeingUsed() {
+        return Transaksi::where('id_customer', $this->id_customer)->exists();
+    }
 }
