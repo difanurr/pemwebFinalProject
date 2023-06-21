@@ -91,8 +91,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editModalLabel">Edit Data Transaksi</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" onclick="closeModal('{{ $item->id_transaksi }}')">&times;</span>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal" aria-label="Close" onclick="closeModal('{{ $item->id_transaksi }}')">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -139,8 +139,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="deleteModalLabel">Apa Anda yakin ingin menghapus data ini?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" onclick="closeModal('{{ $item->id_transaksi }}')">&times;</span>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-dismiss="modal" aria-label="Close" onclick="closeModal('{{ $item->id_transaksi }}')">
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
